@@ -1,135 +1,134 @@
-import { useState, useEffect } from 'react'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-const MissionTime = () => {
-  const [timeLeft, setTimeLeft] = useState(30.0)
-  const [isCrisis, setIsCrisis] = useState(false)
-
-  const size = 400
-  const strokeWidth = 12
-  const center = size / 2
-  const radius = (size - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
-
-  // 計算進度（從 30 到 0）
-  const progress = useMotionValue(30.0)
-  const offset = useTransform(progress, [30, 0], [0, circumference])
+const MissionTime: React.FC = () => {
+  // 設定倒數時間 (30秒)
+  const [timeLeft, setTimeLeft] = useState(30.0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        const newTime = Math.max(0, prev - 0.1)
-        
-        // 更新進度值
-        progress.set(newTime)
-        
-        return newTime
-      })
-    }, 100)
+        if (prev <= 0) {
+          clearInterval(timer);
+          return 0;
+        }
+        return Number((prev - 0.1).toFixed(1));
+      });
+    }, 100);
 
-    return () => clearInterval(interval)
-  }, [progress])
+    return () => clearInterval(timer);
+  }, []);
 
-  // 根據時間更新危機狀態
-  useEffect(() => {
-    setIsCrisis(timeLeft <= 10)
-  }, [timeLeft])
+  const formattedTime = timeLeft.toFixed(1);
+  const [seconds, ms] = formattedTime.split('.');
 
-  // 決定顏色
-  const color = isCrisis ? '#FF0044' : '#b9ff36'
-  const glowColor = isCrisis ? 'rgba(255, 0, 68, 0.8)' : 'rgba(185, 255, 54, 0.8)'
-
-  // 格式化時間顯示
-  const formatTime = (time: number) => {
-    return time.toFixed(1)
-  }
+  // ★ 關鍵邏輯：剩下 10 秒變色 ★
+  const isUrgent = timeLeft <= 10;
+  
+  // 定義顏色變數 (綠色 vs 紅色)
+  const colorState = {
+    text: isUrgent ? 'text-red-500' : 'text-green-500',
+    border: isUrgent ? 'border-red-500' : 'border-green-500/50',
+    bg: isUrgent ? 'bg-red-900/20' : 'bg-green-900/20',
+    stroke: isUrgent ? '#EF4444' : '#22C55E', // Hex colors for SVG
+    shadow: isUrgent ? 'rgba(239,68,68,0.6)' : 'rgba(34,197,94,0.6)',
+    statusText: isUrgent ? '⚠ TIME CRITICAL - WRAP UP!' : '● BRIEFING SESSION ACTIVE',
+    subText: isUrgent ? 'text-red-400/70' : 'text-green-400/70'
+  };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="relative" style={{ width: size, height: size }}>
-        {/* SVG 圓環進度條 */}
-        <svg
-          width={size}
-          height={size}
-          className="transform -rotate-90"
-        >
-          {/* 背景圓環 */}
-          <circle
-            cx={center}
-            cy={center}
-            r={radius}
-            fill="none"
-            stroke="rgba(255, 255, 255, 0.1)"
-            strokeWidth={strokeWidth}
-          />
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
+      
+      {/* Background Grid (保持紅色調，維持戰情室基底氛圍) */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+
+      {/* Intelligence Panel */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-2xl mb-8 border border-white/10 bg-black/80 backdrop-blur-md p-8 rounded-xl relative shadow-2xl z-10"
+      >
+        {/* Live Label */}
+        <div className="absolute top-4 right-4 flex gap-2">
+           <div className="text-xs font-mono text-red-500 border border-red-500/50 px-2 py-1 rounded bg-red-900/20 animate-pulse">
+             ● LIVE WAR ROOM
+           </div>
+        </div>
+
+        <div className="space-y-5 font-mono text-left">
+          {/* Operation Title */}
+          <div className="flex flex-col border-l-4 border-white/20 pl-4">
+            <span className="text-xs text-gray-500 tracking-widest mb-1">OPERATION CODE</span>
+            <span className="text-2xl text-white font-bold tracking-tight">
+              PROJECT NOVA: OFFICIAL LAUNCH
+            </span>
+          </div>
+
+          <div className="h-px w-full bg-white/10 my-2" />
+
+          {/* Attendees & Mission */}
+          <div className="space-y-2">
+            <div className="flex items-start gap-4 text-gray-400 text-sm">
+               <span className="font-bold min-w-[100px] text-white">ATTENDEES:</span>
+               <span>All Departments (Cross-functional assembly)</span>
+            </div>
+            <div className="flex items-center gap-4 text-gray-400 text-sm">
+               <span className="font-bold min-w-[100px] text-white">GOAL:</span>
+               <span>Identify & Brief Your Role</span>
+            </div>
+          </div>
           
-          {/* 進度圓環 */}
+          {/* Status Alert (會變色！) */}
+          <div className={`pt-4 mt-2 border-t border-dashed ${isUrgent ? 'border-red-500/30' : 'border-green-500/30'} flex items-center justify-between transition-colors duration-300`}>
+            <span className={`${colorState.text} font-bold animate-pulse tracking-wider transition-colors duration-300`}>
+              {colorState.statusText}
+            </span>
+            <span className={`text-xs font-mono border px-2 py-1 rounded transition-colors duration-300 ${colorState.text} ${colorState.border}`}>
+              T-MINUS
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Countdown Timer Circle */}
+      <div className="relative scale-90 sm:scale-100">
+        <svg className="w-64 h-64 sm:w-80 sm:h-80 transform -rotate-90">
+          {/* 底部軌道 */}
+          <circle cx="50%" cy="50%" r="48%" stroke="#1a1a1a" strokeWidth="8" fill="transparent" />
+          
+          {/* 進度條 (會變色！) */}
           <motion.circle
-            cx={center}
-            cy={center}
-            r={radius}
-            fill="none"
-            stroke={color}
-            strokeWidth={strokeWidth}
+            cx="50%" cy="50%" r="48%"
+            stroke={colorState.stroke} 
+            strokeWidth="8" 
+            fill="transparent"
+            strokeDasharray={2 * Math.PI * 120}
+            strokeDashoffset={0}
             strokeLinecap="round"
-            strokeDasharray={circumference}
-            style={{
-              strokeDashoffset: offset,
-              filter: isCrisis 
-                ? `drop-shadow(0 0 20px ${glowColor}) drop-shadow(0 0 40px ${glowColor})`
-                : `drop-shadow(0 0 15px ${glowColor}) drop-shadow(0 0 30px ${glowColor})`,
+            initial={false}
+            animate={{ 
+              stroke: colorState.stroke,
+              strokeDashoffset: 2 * Math.PI * 120 * (1 - timeLeft / 30)
             }}
-            animate={{
-              opacity: isCrisis ? [1, 0.5, 1] : 1,
-            }}
-            transition={{
-              duration: isCrisis ? 0.3 : 2,
-              repeat: isCrisis ? Infinity : 0,
-              ease: 'easeInOut',
-            }}
+            transition={{ duration: 0.1 }} // 平滑過渡
+            style={{ filter: `drop-shadow(0 0 15px ${colorState.shadow})` }}
           />
         </svg>
 
-        {/* 中央數字顯示 */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            className="text-center"
-            animate={{
-              scale: isCrisis ? [1, 1.05, 1] : 1,
-            }}
-            transition={{
-              duration: isCrisis ? 0.3 : 2,
-              repeat: isCrisis ? Infinity : 0,
-              ease: 'easeInOut',
-            }}
-          >
-            <motion.div
-              className={`text-8xl font-mono font-bold ${
-                isCrisis ? 'text-glow-crisis' : 'text-glow-nova'
-              }`}
-              style={{
-                color: color,
-                textShadow: isCrisis
-                  ? `0 0 20px ${glowColor}, 0 0 40px ${glowColor}, 0 0 60px ${glowColor}`
-                  : `0 0 15px ${glowColor}, 0 0 30px ${glowColor}`,
-              }}
-              animate={{
-                opacity: isCrisis ? [1, 0.7, 1] : [1, 0.9, 1],
-              }}
-              transition={{
-                duration: isCrisis ? 0.3 : 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            >
-              {formatTime(timeLeft)}
-            </motion.div>
-          </motion.div>
+        {/* 中央數字 (會變色！) */}
+        <div className={`absolute inset-0 flex flex-col items-center justify-center font-mono font-bold transition-colors duration-300 ${colorState.text}`}>
+          <span className="text-7xl sm:text-8xl tabular-nums tracking-tighter drop-shadow-lg">
+            {seconds}<span className="text-3xl sm:text-4xl opacity-50">.{ms}</span>
+          </span>
+          <span className={`text-xs mt-2 tracking-[0.3em] transition-colors duration-300 ${colorState.subText}`}>
+            TIME TO BRIEF
+          </span>
         </div>
       </div>
+
     </div>
-  )
-}
+  );
+};
 
-export default MissionTime
-
+export default MissionTime;
