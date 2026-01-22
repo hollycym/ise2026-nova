@@ -51,8 +51,6 @@ function App() {
     }
   }
 
-  // 系統狀態 (用於決定綠色/紅色呼吸燈)
-  const [isSystemActive, setIsSystemActive] = useState(true) // true = 綠色, false = 紅色
 
   // 階段切換處理函數（包含 log 記錄）
   const handlePhaseChange = (newPhase: ScenarioPhase) => {
@@ -119,203 +117,28 @@ function App() {
     }
   }, [scenarioPhase])
 
-  // 待機封面元件 - AI Meeting Coach 核心待機介面
+  // 待機封面元件 - 現代極簡亮白風格
   const IdleCover = () => {
     return (
-      <div className="relative w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden">
-        {/* Background Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-        
-        <div className="relative z-10 flex flex-col items-center justify-center">
+      <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
+        <div className="relative z-10 flex flex-col items-center justify-center max-w-2xl">
           {/* 主標題 */}
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl font-bold font-mono text-nova text-glow-nova mb-12 tracking-wider uppercase"
-            style={{
-              textShadow: '0 0 20px rgba(185, 255, 54, 0.8), 0 0 40px rgba(185, 255, 54, 0.5)',
-            }}
+            className="text-4xl sm:text-5xl font-bold font-sans text-gray-900 mb-8 tracking-tight"
           >
-            AI MEETING COACH : ONLINE
+            AI MEETING COACH
           </motion.h1>
 
-          {/* AI 核心視覺元件 */}
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 mb-12 flex items-center justify-center">
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 256 256">
-              {/* 外層圓環 1 (最外) */}
-              <motion.circle
-                cx="128"
-                cy="128"
-                r="124"
-                fill="none"
-                stroke="url(#gradient1)"
-                strokeWidth="2"
-                filter="url(#glow1)"
-                style={{ transformOrigin: '128px 128px' }}
-                animate={{
-                  rotate: 360,
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  rotate: {
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  },
-                  scale: {
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  },
-                }}
-              />
-
-              {/* 外層圓環 2 */}
-              <motion.circle
-                cx="128"
-                cy="128"
-                r="108"
-                fill="none"
-                stroke="url(#gradient2)"
-                strokeWidth="2"
-                filter="url(#glow2)"
-                style={{ transformOrigin: '128px 128px' }}
-                animate={{
-                  rotate: -360,
-                  scale: [1, 0.95, 1],
-                }}
-                transition={{
-                  rotate: {
-                    duration: 25,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  },
-                  scale: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  },
-                }}
-              />
-
-              {/* 中層圓環 */}
-              <motion.circle
-                cx="128"
-                cy="128"
-                r="92"
-                fill="none"
-                stroke="url(#gradient3)"
-                strokeWidth="2"
-                filter="url(#glow3)"
-                style={{ transformOrigin: '128px 128px' }}
-                animate={{
-                  rotate: 360,
-                  scale: [1, 1.08, 1],
-                }}
-                transition={{
-                  rotate: {
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  },
-                  scale: {
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  },
-                }}
-              />
-
-              {/* 內層圓環 */}
-              <motion.circle
-                cx="128"
-                cy="128"
-                r="76"
-                fill="none"
-                stroke="url(#gradient4)"
-                strokeWidth="2"
-                filter="url(#glow4)"
-                style={{ transformOrigin: '128px 128px' }}
-                animate={{
-                  rotate: -360,
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  rotate: {
-                    duration: 12,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  },
-                  scale: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  },
-                }}
-              />
-
-              {/* SVG 漸層定義 */}
-              <defs>
-                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#14532d" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#22c55e" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#052e16" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#16a34a" stopOpacity="0.6" />
-                </linearGradient>
-                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#14532d" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#b9ff36" stopOpacity="0.7" />
-                </linearGradient>
-                <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#16a34a" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#4ade80" stopOpacity="0.8" />
-                </linearGradient>
-                
-                {/* 發光濾鏡 */}
-                <filter id="glow1">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glow2">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glow3">
-                  <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glow4">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-            </svg>
-
-            {/* 核心圓點 */}
+          {/* 簡約的萊姆綠色動態圓點 */}
+          <div className="relative w-32 h-32 sm:w-40 sm:h-40 mb-12 flex items-center justify-center">
             <motion.div
-              className="absolute w-24 h-24 sm:w-32 sm:h-32 rounded-full"
-              style={{
-                background: 'radial-gradient(circle, #22c55e, #14532d)',
-                filter: 'drop-shadow(0 0 30px rgba(34, 197, 94, 1))',
-              }}
+              className="absolute w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-lime-400"
               animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.8, 1, 0.8],
+                opacity: [0.6, 1, 0.6],
               }}
               transition={{
                 duration: 2,
@@ -323,38 +146,20 @@ function App() {
                 ease: 'easeInOut',
               }}
             />
-
-            {/* 內部發光粒子效果 */}
-            {[...Array(8)].map((_, i) => {
-              const angle = (i * 360) / 8
-              const radius = 48
-              const x = Math.cos((angle * Math.PI) / 180) * radius
-              const y = Math.sin((angle * Math.PI) / 180) * radius
-              
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full"
-                  style={{
-                    background: '#22c55e',
-                    left: '50%',
-                    top: '50%',
-                    filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 1))',
-                    transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-                  }}
-                  animate={{
-                    scale: [0.5, 1.5, 0.5],
-                    opacity: [0.3, 1, 0.3],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: i * 0.1,
-                  }}
-                />
-              )
-            })}
+            <motion.div
+              className="absolute w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-lime-300"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.4, 0.8, 0.4],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 0.3,
+              }}
+            />
+            <div className="absolute w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-lime-500" />
           </div>
 
           {/* 副標題 */}
@@ -362,7 +167,7 @@ function App() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-white/60 font-mono text-sm sm:text-base tracking-wider mb-8 text-center"
+            className="text-gray-600 font-sans text-base sm:text-lg mb-8 text-center font-medium"
           >
             Awaiting Meeting Context Initialization...
           </motion.h2>
@@ -372,7 +177,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="text-white/40 font-mono text-xs sm:text-sm tracking-[0.3em] uppercase text-center border border-glow-subtle/30 px-4 py-2 rounded"
+            className="text-gray-500 font-mono text-xs sm:text-sm tracking-wider uppercase text-center border border-gray-200 px-4 py-2 rounded-lg bg-white shadow-sm"
           >
             PRESS 1-4 OR SPACE TO INITIATE
           </motion.p>
@@ -400,52 +205,25 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
-      {/* 掃描線紋理 (Scanlines) */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(255, 255, 255, 0.1) 2px,
-            rgba(255, 255, 255, 0.1) 4px
-          )`
-        }}
-      />
-
-      {/* 頂部狀態列 (Top Bar) */}
+    <div className="min-h-screen bg-gray-50 flex flex-col relative overflow-hidden">
+      {/* 頂部狀態列 - 現代極簡風格 */}
       <motion.div
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="h-16 bg-black/90 backdrop-blur-md border-b border-glow-subtle flex items-center justify-between px-6 z-10 relative"
+        className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10 relative shadow-sm"
       >
         {/* 左側：NOVA SYSTEM 狀態 */}
         <div className="flex items-center gap-3">
-          <span className="text-white/90 font-mono text-sm tracking-wider">
+          <span className="text-gray-700 font-sans text-sm font-medium">
             NOVA SYSTEM:
           </span>
           <div className="flex items-center gap-2">
             {/* 呼吸燈指示器 */}
             <motion.div
-              className={`w-2 h-2 rounded-full ${
-                isSystemActive ? 'bg-nova' : 'bg-crisis'
-              }`}
+              className="w-2 h-2 rounded-full bg-lime-400"
               animate={{
-                opacity: [1, 0.3, 1],
-                boxShadow: isSystemActive
-                  ? [
-                      '0 0 8px rgba(185, 255, 54, 0.8)',
-                      '0 0 16px rgba(185, 255, 54, 0.4)',
-                      '0 0 8px rgba(185, 255, 54, 0.8)',
-                    ]
-                  : [
-                      '0 0 8px rgba(255, 0, 68, 0.8)',
-                      '0 0 16px rgba(255, 0, 68, 0.4)',
-                      '0 0 8px rgba(255, 0, 68, 0.8)',
-                    ],
+                opacity: [1, 0.5, 1],
               }}
               transition={{
                 duration: 2,
@@ -453,13 +231,7 @@ function App() {
                 ease: 'easeInOut',
               }}
             />
-            <span
-              className={`font-mono text-sm font-semibold tracking-wider ${
-                isSystemActive
-                  ? 'text-nova text-glow-nova'
-                  : 'text-crisis text-glow-crisis'
-              }`}
-            >
+            <span className="font-sans text-sm font-semibold text-gray-900">
               ACTIVE
             </span>
           </div>
@@ -474,7 +246,7 @@ function App() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.3 }}
-              className="text-white/70 font-mono text-xs tracking-[0.2em] uppercase"
+              className="text-gray-600 font-mono text-xs tracking-wider uppercase"
             >
               {getStatusText(scenarioPhase)}
             </motion.span>
@@ -483,31 +255,110 @@ function App() {
       </motion.div>
 
       {/* 主內容區域：左右兩欄佈局 */}
-      <div className="flex-1 flex relative z-0">
-        {/* 左側：主舞台 (75%) */}
-        <div className="flex-[3] relative overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={scenarioPhase}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0"
-            >
-              {renderMissionComponent()}
-            </motion.div>
-          </AnimatePresence>
+      <div className="flex-1 flex relative z-0 gap-6 p-6">
+        {/* 左側：主舞台 (75%) - 白底卡片 */}
+        <div className="flex-[3] relative overflow-hidden rounded-3xl bg-white shadow-md border border-gray-100 flex flex-col">
+          {/* Mission 元件區域 */}
+          <div className="flex-1 relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={scenarioPhase}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0"
+              >
+                {renderMissionComponent()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* 即時雙向翻譯字幕區 - 只在非 IDLE 狀態顯示 */}
+          {scenarioPhase !== 'IDLE' && (
+            <div className="px-6 pb-6 pt-4 space-y-3 border-t border-gray-100">
+              {/* Speaker A / 原文 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="bg-white rounded-full shadow-lg border border-gray-100 px-4 py-3 flex items-center gap-3"
+              >
+                {/* 語言代碼圓形標籤 */}
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-semibold text-gray-700">EN</span>
+                </div>
+                
+                {/* 文字內容 */}
+                <div className="flex-1 flex items-center gap-2">
+                  <span className="text-gray-900 text-sm font-medium">
+                    We need to address the legacy code issues immediately.
+                  </span>
+                  {/* 錄音中指示器 */}
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-red-500"
+                    animate={{
+                      opacity: [1, 0.3, 1],
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                  />
+                </div>
+              </motion.div>
+
+              {/* AI Translator / 譯文 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="bg-white rounded-full shadow-lg border border-gray-100 px-4 py-3 flex items-center gap-3"
+              >
+                {/* AI 圖示圓形標籤 - 萊姆綠背景 */}
+                <div className="w-10 h-10 rounded-full bg-lime-100 border-2 border-lime-400 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-semibold text-lime-700">AI</span>
+                </div>
+                
+                {/* 文字內容 */}
+                <div className="flex-1 flex items-center gap-2">
+                  <span className="text-gray-800 text-sm font-medium">
+                    我們需要立即解決舊有程式碼的問題。
+                  </span>
+                  {/* 波形動畫指示器 */}
+                  <div className="flex items-center gap-1 h-4">
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1 bg-lime-400 rounded-full"
+                        animate={{
+                          height: [4, 12, 4],
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: i * 0.2,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
         </div>
 
-        {/* 右側：Context Log 側邊欄 (25%) */}
-        <div className="flex-[1] bg-black/40 border-l border-glow-subtle/50 flex flex-col overflow-hidden">
+        {/* 右側：Context Log 側邊欄 (25%) - 白底卡片 */}
+        <div className="flex-[1] bg-white border border-gray-100 rounded-3xl flex flex-col overflow-hidden shadow-md">
           {/* 標題 */}
-          <div className="px-4 py-3 border-b border-glow-subtle/30">
-            <h2 className="text-white/90 font-mono text-sm font-semibold tracking-wider uppercase">
+          <div className="px-4 py-3 border-b border-gray-200">
+            <h2 className="text-gray-900 font-sans text-sm font-semibold tracking-wide uppercase">
               MEMORY BANK
             </h2>
-            <p className="text-white/40 font-mono text-xs mt-1 tracking-wider">
+            <p className="text-gray-500 font-sans text-xs mt-1">
               SESSION CONTEXT
             </p>
           </div>
@@ -515,7 +366,7 @@ function App() {
           {/* Log 列表 */}
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
             {logs.length === 0 ? (
-              <div className="text-white/30 font-mono text-xs italic py-8 text-center">
+              <div className="text-gray-400 font-sans text-xs italic py-8 text-center">
                 No logs yet...
               </div>
             ) : (
@@ -523,19 +374,19 @@ function App() {
                 {logs.map((log, index) => {
                   const isLatest = index === logs.length - 1
                   return (
-                    <motion.div
+        <motion.div
                       key={`${log}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className={`font-mono text-xs py-2 px-2 border-l-2 transition-all duration-300 ${
+                      className={`font-sans text-xs py-2 px-3 rounded-lg transition-all duration-300 ${
                         isLatest
-                          ? 'border-nova/60 text-white/90 bg-nova/5'
-                          : 'border-glow-subtle/30 text-white/50 bg-transparent'
+                          ? 'bg-lime-50 border-l-4 border-lime-400 text-gray-900'
+                          : 'text-gray-600 bg-transparent border-l-4 border-gray-200'
                       }`}
                     >
-                      <span className="text-nova/60 mr-2">&gt;</span>
-                      <span className={isLatest ? 'text-white/90' : 'text-white/50'}>
+                      <span className={`mr-2 ${isLatest ? 'text-lime-600' : 'text-gray-400'}`}>&gt;</span>
+                      <span className={isLatest ? 'text-gray-900 font-medium' : 'text-gray-600'}>
                         {log}
                       </span>
                     </motion.div>
@@ -546,8 +397,8 @@ function App() {
           </div>
 
           {/* 底部提示 */}
-          <div className="px-4 py-3 border-t border-glow-subtle/30">
-            <p className="text-white/30 font-mono text-[10px] tracking-wider uppercase">
+          <div className="px-4 py-3 border-t border-gray-200">
+            <p className="text-gray-400 font-mono text-[10px] tracking-wider uppercase">
               Press 0-4 or Space to navigate
             </p>
           </div>

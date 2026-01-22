@@ -7,139 +7,24 @@
 
 @layer base {
   body {
-    @apply bg-background text-white font-sans antialiased;
-    background-color: #0A0A0A;
+    @apply text-gray-900 font-sans antialiased;
+    background-color: #F9FAFB;
+    min-height: 100vh;
   }
 
   * {
-    @apply border-glow-subtle;
+    @apply border-gray-200;
   }
 }
 
 @layer components {
-  /* 卡片基础样式 - 带发光边框 */
-  .card-glow {
-    @apply border border-glow-subtle rounded-lg;
-    @apply bg-background-light/50 backdrop-blur-sm;
-    @apply shadow-glow-subtle;
+  /* 卡片基础样式 - 現代極簡風格 */
+  .card-modern {
+    @apply bg-white rounded-3xl shadow-md border border-gray-100;
     transition: all 0.3s ease;
   }
 
-  /* NOVA Green 卡片 */
-  .card-nova {
-    @apply card-glow;
-    @apply border-glow-nova shadow-glow-nova;
-  }
-
-  .card-nova:hover {
-    @apply shadow-glow-nova;
-    border-color: rgba(0, 255, 136, 0.5);
-  }
-
-  /* Crisis Red 卡片 */
-  .card-crisis {
-    @apply card-glow;
-    @apply border-glow-crisis shadow-glow-crisis;
-  }
-
-  .card-crisis:hover {
-    @apply shadow-glow-crisis;
-    border-color: rgba(255, 0, 68, 0.5);
-  }
-
-  /* Neon Blue 卡片 */
-  .card-neon {
-    @apply card-glow;
-    @apply border-glow-neon shadow-glow-neon;
-  }
-
-  .card-neon:hover {
-    @apply shadow-glow-neon;
-    border-color: rgba(0, 217, 255, 0.5);
-  }
-
-  /* Structure Purple 卡片 */
-  .card-structure {
-    @apply card-glow;
-    @apply border-glow-structure shadow-glow-structure;
-  }
-
-  .card-structure:hover {
-    @apply shadow-glow-structure;
-    border-color: rgba(157, 78, 221, 0.5);
-  }
-
-  /* 文字发光效果 */
-  .text-glow-nova {
-    text-shadow: 0 0 10px rgba(185, 255, 54, 0.8), 0 0 20px rgba(185, 255, 54, 0.5);
-  }
-
-  .text-glow-crisis {
-    text-shadow: 0 0 10px rgba(255, 0, 68, 0.8), 0 0 20px rgba(255, 0, 68, 0.5);
-  }
-
-  .text-glow-neon {
-    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8), 0 0 20px rgba(0, 217, 255, 0.5);
-  }
-
-  .text-glow-structure {
-    text-shadow: 0 0 10px rgba(157, 78, 221, 0.8), 0 0 20px rgba(157, 78, 221, 0.5);
-  }
-
-  /* 按钮样式 */
-  .btn-nova {
-    @apply px-6 py-3 rounded-lg font-semibold;
-    @apply bg-nova text-background;
-    @apply border border-nova;
-    @apply shadow-glow-nova;
-    @apply transition-all duration-300;
-  }
-
-  .btn-nova:hover {
-    @apply bg-nova-light shadow-glow-nova;
-    transform: translateY(-2px);
-  }
-
-  .btn-crisis {
-    @apply px-6 py-3 rounded-lg font-semibold;
-    @apply bg-crisis text-white;
-    @apply border border-crisis;
-    @apply shadow-glow-crisis;
-    @apply transition-all duration-300;
-  }
-
-  .btn-crisis:hover {
-    @apply bg-crisis-light shadow-glow-crisis;
-    transform: translateY(-2px);
-  }
-
-  /* 输入框样式 */
-  .input-nova {
-    @apply px-4 py-2 rounded-lg;
-    @apply bg-background-light border border-glow-nova;
-    @apply text-white placeholder-gray-500;
-    @apply focus:outline-none focus:border-nova focus:shadow-glow-nova;
-    @apply transition-all duration-300;
+  .card-modern:hover {
+    @apply shadow-lg;
   }
 }
-
-@layer utilities {
-  /* 自定义工具类 */
-  .glow-border {
-    position: relative;
-  }
-
-  .glow-border::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(45deg, transparent, currentColor, transparent);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.5;
-  }
-}
-

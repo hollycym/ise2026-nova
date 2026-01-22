@@ -88,50 +88,50 @@ const MissionClarity: React.FC = () => {
     <div className="flex h-full gap-6 p-6">
       
       {/* 左側：即時逐字稿 (Live Transcript) */}
-      <div className="w-1/3 bg-black/50 backdrop-blur-md border border-white/10 rounded-xl p-6 flex flex-col relative overflow-hidden">
+      <div className="w-1/3 bg-white border border-gray-200 rounded-3xl p-6 flex flex-col relative shadow-md">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-4">
           <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${isListening ? 'bg-red-500 animate-pulse' : 'bg-gray-500'}`} />
-            <span className="text-sm font-mono text-gray-400">
+            <div className={`w-3 h-3 rounded-full ${isListening ? 'bg-red-500 animate-pulse' : 'bg-gray-400'}`} />
+            <span className="text-sm font-mono text-gray-600">
               {isListening ? 'LIVE TRANSCRIPT' : 'MIC IDLE'}
             </span>
           </div>
-          {isListening && <span className="text-xs text-red-400 animate-pulse">● REC</span>}
+          {isListening && <span className="text-xs text-red-500 animate-pulse">● REC</span>}
         </div>
 
         {/* Transcript Content */}
         <div className="flex-1 overflow-y-auto font-mono text-lg leading-relaxed space-y-4">
           {transcript ? (
-            <p className="text-gray-300">
+            <p className="text-gray-700">
               {transcript.split(' ').map((word, i) => {
                 const lowerWord = word.toLowerCase().replace(/[^a-z]/g, '');
                 const isKeyword = ['awareness', 'consideration', 'conversion', 'retention'].includes(lowerWord);
                 return (
-                  <span key={i} className={isKeyword ? "text-green-400 font-bold drop-shadow-[0_0_8px_rgba(74,222,128,0.5)] transition-all duration-300" : ""}>
+                  <span key={i} className={isKeyword ? "text-lime-600 font-bold transition-all duration-300" : ""}>
                     {word}{' '}
                   </span>
                 );
               })}
             </p>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center text-gray-600 space-y-4">
+            <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
               <p>等待語音輸入...</p>
-              <div className="text-sm border border-gray-700 rounded px-3 py-1">或使用鍵盤: A / S / D / F</div>
+              <div className="text-sm border border-gray-300 rounded px-3 py-1 bg-gray-50">或使用鍵盤: A / S / D / F</div>
             </div>
           )}
         </div>
       </div>
 
       {/* 右側：視覺化區域 (AI Visualizer) */}
-      <div className="w-2/3 bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl p-8 relative overflow-hidden flex flex-col items-center justify-center">
+      <div className="w-2/3 bg-white border border-gray-200 rounded-3xl p-8 relative overflow-hidden flex flex-col items-center justify-center shadow-md">
         <div className="absolute top-4 left-4 flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-xs text-gray-400 font-mono tracking-widest">AI VISUALIZER</span>
+          <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse" />
+          <span className="text-xs text-gray-500 font-mono tracking-widest">AI VISUALIZER</span>
         </div>
 
-        <h2 className="text-3xl font-bold text-gray-600 mb-8 mt-4 tracking-tight">Marketing Funnel</h2>
+        <h2 className="text-3xl font-bold text-gray-700 mb-8 mt-4 tracking-tight">Marketing Funnel</h2>
 
         {/* 漏斗容器：使用 relative 定位 */}
         <div className="relative w-[600px] h-[400px] flex flex-col items-center justify-center gap-4">
@@ -142,12 +142,12 @@ const MissionClarity: React.FC = () => {
             animate={{
               opacity: activeLayer === 'awareness' || activeLayer === 'all' ? 1 : 0.3,
               y: 0,
-              boxShadow: activeLayer === 'awareness' ? "0 0 30px #00FF00" : "none",
-              borderColor: activeLayer === 'awareness' ? "#00FF00" : "#333"
+              borderColor: activeLayer === 'awareness' ? '#84CC16' : '#E5E7EB',
+              backgroundColor: activeLayer === 'awareness' ? '#F7FEE7' : '#FFFFFF'
             }}
-            className="w-[400px] h-[100px] border-2 border-gray-700 rounded-lg flex flex-col items-center justify-center bg-black/40 z-10"
+            className="w-[400px] h-[100px] border-2 rounded-2xl flex flex-col items-center justify-center bg-white z-10 shadow-sm"
           >
-            <span className={`text-2xl font-bold ${activeLayer === 'awareness' ? 'text-green-400' : 'text-gray-600'}`}>Awareness</span>
+            <span className={`text-2xl font-bold ${activeLayer === 'awareness' ? 'text-lime-600' : 'text-gray-600'}`}>Awareness</span>
             <span className="text-sm text-gray-500">Top of Funnel</span>
           </motion.div>
 
@@ -157,12 +157,12 @@ const MissionClarity: React.FC = () => {
             animate={{
               opacity: activeLayer === 'consideration' || activeLayer === 'all' ? 1 : 0.3,
               y: 0,
-              boxShadow: activeLayer === 'consideration' ? "0 0 30px #00FFFF" : "none",
-              borderColor: activeLayer === 'consideration' ? "#00FFFF" : "#333"
+              borderColor: activeLayer === 'consideration' ? '#22D3EE' : '#E5E7EB',
+              backgroundColor: activeLayer === 'consideration' ? '#ECFEFF' : '#FFFFFF'
             }}
-            className="w-[300px] h-[100px] border-2 border-gray-700 rounded-lg flex flex-col items-center justify-center bg-black/40 z-10"
+            className="w-[300px] h-[100px] border-2 rounded-2xl flex flex-col items-center justify-center bg-white z-10 shadow-sm"
           >
-            <span className={`text-2xl font-bold ${activeLayer === 'consideration' ? 'text-cyan-400' : 'text-gray-600'}`}>Consideration</span>
+            <span className={`text-2xl font-bold ${activeLayer === 'consideration' ? 'text-cyan-500' : 'text-gray-600'}`}>Consideration</span>
             <span className="text-sm text-gray-500">Middle of Funnel</span>
           </motion.div>
 
@@ -172,35 +172,34 @@ const MissionClarity: React.FC = () => {
             animate={{
               opacity: activeLayer === 'conversion' || activeLayer === 'all' ? 1 : 0.3,
               y: 0,
-              boxShadow: activeLayer === 'conversion' ? "0 0 30px #0000FF" : "none",
-              borderColor: activeLayer === 'conversion' ? "#0000FF" : "#333"
+              borderColor: activeLayer === 'conversion' ? '#3B82F6' : '#E5E7EB',
+              backgroundColor: activeLayer === 'conversion' ? '#EFF6FF' : '#FFFFFF'
             }}
-            className="w-[200px] h-[100px] border-2 border-gray-700 rounded-lg flex flex-col items-center justify-center bg-black/40 z-10"
+            className="w-[200px] h-[100px] border-2 rounded-2xl flex flex-col items-center justify-center bg-white z-10 shadow-sm"
           >
             <span className={`text-2xl font-bold ${activeLayer === 'conversion' ? 'text-blue-500' : 'text-gray-600'}`}>Conversion</span>
             <span className="text-sm text-gray-500">Bottom of Funnel</span>
           </motion.div>
 
-          {/* ★★★ 這裡就是紅色的回馬槍箭頭，設定在最上層 z-50 ★★★ */}
+          {/* Retention Loop 箭頭 */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-50 overflow-visible">
-            {/* 紅色回馬槍箭頭路徑 */}
+            {/* 回馬槍箭頭路徑 */}
             <motion.path
-              d="M 330 350 C 500 350, 500 200, 380 200" // 從底部(350)往右拉，再彎上去回到中間(200)
+              d="M 330 350 C 500 350, 500 200, 380 200"
               fill="transparent"
-              stroke="#FF0000"
+              stroke="#84CC16"
               strokeWidth="4"
               strokeLinecap="round"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={showRetention ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
-              style={{ filter: "drop-shadow(0 0 10px #FF0000)" }}
             />
             
             {/* 箭頭尖端 */}
             <motion.path
-              d="M 390 190 L 370 200 L 390 210" // 指向左邊的箭頭
+              d="M 390 190 L 370 200 L 390 210"
               fill="transparent"
-              stroke="#FF0000"
+              stroke="#84CC16"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -216,10 +215,10 @@ const MissionClarity: React.FC = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="text-red-500 font-bold text-lg bg-black/80 px-3 py-1 rounded border border-red-500/50 shadow-[0_0_15px_rgba(255,0,0,0.5)]"
+                  className="text-lime-600 font-bold text-lg bg-white px-3 py-1 rounded border-2 border-lime-400 shadow-md"
                 >
                   RETENTION LOOP
-                  <div className="text-xs text-red-300 font-normal">Customer Return</div>
+                  <div className="text-xs text-lime-500 font-normal">Customer Return</div>
                 </motion.div>
               </foreignObject>
             )}

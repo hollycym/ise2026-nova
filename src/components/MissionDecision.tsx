@@ -42,23 +42,23 @@ const MissionDecision: React.FC = () => {
       {/* 背景四象限 Grid */}
       <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-4 p-12 opacity-50 pointer-events-none">
         {/* Strengths (左上) */}
-        <div className={`border-2 rounded-2xl flex items-start justify-start p-6 transition-all duration-1000 ${isOptimized ? 'border-green-500 bg-green-900/10 shadow-[0_0_50px_rgba(34,197,94,0.2)]' : 'border-white/10'}`}>
-          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-green-500' : 'text-gray-700'}`}>STRENGTHS</h3>
+        <div className={`border-2 rounded-3xl flex items-start justify-start p-6 transition-all duration-1000 ${isOptimized ? 'border-lime-500 bg-lime-50 shadow-md' : 'border-gray-200 bg-white'}`}>
+          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-lime-600' : 'text-gray-400'}`}>STRENGTHS</h3>
         </div>
         
         {/* Weaknesses (右上) */}
-        <div className={`border-2 rounded-2xl flex items-start justify-end p-6 transition-all duration-1000 ${isOptimized ? 'border-orange-500 bg-orange-900/10 shadow-[0_0_50px_rgba(249,115,22,0.2)]' : 'border-white/10'}`}>
-          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-orange-500' : 'text-gray-700'}`}>WEAKNESSES</h3>
+        <div className={`border-2 rounded-3xl flex items-start justify-end p-6 transition-all duration-1000 ${isOptimized ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-gray-200 bg-white'}`}>
+          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-orange-600' : 'text-gray-400'}`}>WEAKNESSES</h3>
         </div>
 
         {/* Opportunities (左下) */}
-        <div className={`border-2 rounded-2xl flex items-end justify-start p-6 transition-all duration-1000 ${isOptimized ? 'border-blue-500 bg-blue-900/10 shadow-[0_0_50px_rgba(59,130,246,0.2)]' : 'border-white/10'}`}>
-          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-blue-500' : 'text-gray-700'}`}>OPPORTUNITIES</h3>
+        <div className={`border-2 rounded-3xl flex items-end justify-start p-6 transition-all duration-1000 ${isOptimized ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 bg-white'}`}>
+          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-blue-600' : 'text-gray-400'}`}>OPPORTUNITIES</h3>
         </div>
 
         {/* Threats (右下) */}
-        <div className={`border-2 rounded-2xl flex items-end justify-end p-6 transition-all duration-1000 ${isOptimized ? 'border-red-500 bg-red-900/10 shadow-[0_0_50px_rgba(239,68,68,0.2)]' : 'border-white/10'}`}>
-          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-red-500' : 'text-gray-700'}`}>THREATS</h3>
+        <div className={`border-2 rounded-3xl flex items-end justify-end p-6 transition-all duration-1000 ${isOptimized ? 'border-red-500 bg-red-50 shadow-md' : 'border-gray-200 bg-white'}`}>
+          <h3 className={`text-2xl font-bold tracking-widest ${isOptimized ? 'text-red-600' : 'text-gray-400'}`}>THREATS</h3>
         </div>
       </div>
 
@@ -68,7 +68,7 @@ const MissionDecision: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           key={isOptimized ? "opt" : "chaos"}
-          className={`text-xl font-mono tracking-[0.2em] font-bold ${isOptimized ? 'text-green-400' : 'text-red-500 animate-pulse'}`}
+          className={`text-xl font-mono tracking-[0.2em] font-bold ${isOptimized ? 'text-lime-600' : 'text-red-500'}`}
         >
           {isOptimized ? '[ STATUS: STRATEGY OPTIMIZED ]' : '[ STATUS: CHAOS DETECTED ]'}
         </motion.div>
@@ -79,16 +79,15 @@ const MissionDecision: React.FC = () => {
       <div className="absolute inset-0 z-10 pointer-events-none">
         {initialCards.map((card) => {
           // 計算最終位置 (歸位到四個角落的中心點)
-          // 這裡使用固定偏移量來模擬歸位
           let finalX = 0;
           let finalY = 0;
           let colorClass = "";
 
           switch (card.type) {
-            case 'S': finalX = -300; finalY = -150; colorClass = "bg-green-500 text-black shadow-[0_0_20px_#22c55e]"; break; // 左上
-            case 'W': finalX = 300; finalY = -150; colorClass = "bg-orange-500 text-black shadow-[0_0_20px_#f97316]"; break; // 右上
-            case 'O': finalX = -300; finalY = 150; colorClass = "bg-blue-500 text-black shadow-[0_0_20px_#3b82f6]"; break; // 左下
-            case 'T': finalX = 300; finalY = 150; colorClass = "bg-red-500 text-black shadow-[0_0_20px_#ef4444]"; break; // 右下
+            case 'S': finalX = -300; finalY = -150; colorClass = "bg-lime-50 border-2 border-lime-500 text-lime-700 shadow-md"; break; // 左上
+            case 'W': finalX = 300; finalY = -150; colorClass = "bg-orange-50 border-2 border-orange-500 text-orange-700 shadow-md"; break; // 右上
+            case 'O': finalX = -300; finalY = 150; colorClass = "bg-blue-50 border-2 border-blue-500 text-blue-700 shadow-md"; break; // 左下
+            case 'T': finalX = 300; finalY = 150; colorClass = "bg-red-50 border-2 border-red-500 text-red-700 shadow-md"; break; // 右下
           }
 
           return (
@@ -104,8 +103,8 @@ const MissionDecision: React.FC = () => {
                 ? { type: "spring", stiffness: 50, damping: 10, delay: card.id * 0.05 } // 飛入動畫
                 : { repeat: Infinity, duration: 3 + Math.random() * 2, ease: "easeInOut" } // 飄浮動畫
               }
-              className={`absolute top-1/2 left-1/2 w-48 h-24 -ml-24 -mt-12 rounded-lg flex items-center justify-center font-bold text-lg backdrop-blur-md border border-white/20
-                ${isOptimized ? colorClass : "bg-white/10 text-gray-300"}`}
+              className={`absolute top-1/2 left-1/2 w-48 h-24 -ml-24 -mt-12 rounded-xl flex items-center justify-center font-bold text-lg border border-gray-200
+                ${isOptimized ? colorClass : "bg-white text-gray-600 shadow-sm"}`}
             >
               {card.text}
             </motion.div>
